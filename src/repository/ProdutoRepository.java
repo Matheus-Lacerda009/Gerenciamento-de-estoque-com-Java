@@ -1,12 +1,15 @@
 package repository;
 
 import connection.Conexao;
+import exception.ErroInsercaoException;
+import exception.ProdutoNaoEncontradoException;
 import model.Produto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class ProdutoRepository {
 
@@ -21,17 +24,21 @@ public class ProdutoRepository {
 
             ResultSet resultadoInsercao = declaracaoPreparada.getResultSet();
 
-            final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
-            final String nomeResultado = resultadoInsercao.getString("nome");
-            final double precoResultado = resultadoInsercao.getDouble("preco");
+            if(resultadoInsercao.next()) {
+                final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
+                final String nomeResultado = resultadoInsercao.getString("nome");
+                final double precoResultado = resultadoInsercao.getDouble("preco");
 
-            Produto produtoInserido = new Produto(
-                    idResultado,
-                    nomeResultado,
-                    precoResultado
-            );
+                Produto produtoInserido = new Produto(
+                        idResultado,
+                        nomeResultado,
+                        precoResultado
+                );
 
-            return produtoInserido;
+                return produtoInserido;
+            } else {
+                throw new ErroInsercaoException("Não foi retornado nenhuma informação da inserção do produto!");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,16 +52,20 @@ public class ProdutoRepository {
             declaracaoPreparada.setLong(1, id);
             ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
 
-            final String nomeResultado = resultadoInsercao.getString("nome");
-            final double precoResultado = resultadoInsercao.getDouble("preco");
+            if(resultadoInsercao.next()) {
+                final String nomeResultado = resultadoInsercao.getString("nome");
+                final double precoResultado = resultadoInsercao.getDouble("preco");
 
-            Produto produtoInserido = new Produto(
-                    id,
-                    nomeResultado,
-                    precoResultado
-            );
+                Produto produtoInserido = new Produto(
+                        id,
+                        nomeResultado,
+                        precoResultado
+                );
 
-            return produtoInserido;
+                return produtoInserido;
+            } else {
+                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
