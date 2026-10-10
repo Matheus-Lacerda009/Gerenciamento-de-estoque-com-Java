@@ -21,10 +21,14 @@ public class ProdutoRepository {
 
             ResultSet resultadoInsercao = declaracaoPreparada.getResultSet();
 
+            final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
+            final String nomeResultado = resultadoInsercao.getString("nome");
+            final double precoResultado = resultadoInsercao.getDouble("preco");
+
             Produto produtoInserido = new Produto(
-                    resultadoInsercao.getLong("GENERATED_KEYS"),
-                    resultadoInsercao.getString("nome"),
-                    resultadoInsercao.getDouble("preco")
+                    idResultado,
+                    nomeResultado,
+                    precoResultado
             );
 
             return produtoInserido;
@@ -41,9 +45,12 @@ public class ProdutoRepository {
             declaracaoPreparada.setString(1, "%" + nome + "%");
             ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
 
+            final String nomeResultado = resultadoInsercao.getString("nome");
+            final double precoResultado = resultadoInsercao.getDouble("preco");
+
             Produto produtoInserido = new Produto(
-                    resultadoInsercao.getString("nome"),
-                    resultadoInsercao.getDouble("preco")
+                    nomeResultado,
+                    precoResultado
             );
 
             return produtoInserido;
