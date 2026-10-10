@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoRepository {
@@ -66,6 +67,35 @@ public class ProdutoRepository {
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Produto> listarProduto(){
+        final String sql = "select * from Estoque;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            List<Produto> produtosEstoque = new ArrayList<>();
+
+            ResultSet resultadoBusca = declaracaoPreparada.executeQuery();
+
+            while(resultadoBusca.next()) {
+                final Long idResultado = resultadoBusca.getLong("id");
+                final String nomeResultado = resultadoBusca.getString("nome");
+                final double precoResultado = resultadoBusca.getDouble("preco");
+
+                Produto produto = new Produto(
+                        idResultado,
+                        nomeResultado,
+                        precoResultado
+                );
+
+                produtosEstoque.add(produto);
+            }
+
+            return produtosEstoque;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
