@@ -32,4 +32,23 @@ public class ProdutoRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public Produto buscarProduto(String nome){
+        final String sql = "select * from Estoque where nome like ?;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            declaracaoPreparada.setString(1, "%" + nome + "%");
+            ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
+
+            Produto produtoInserido = new Produto(
+                    resultadoInsercao.getString("nome"),
+                    resultadoInsercao.getDouble("preco")
+            );
+
+            return produtoInserido;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
