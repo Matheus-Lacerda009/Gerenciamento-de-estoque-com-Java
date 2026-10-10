@@ -37,18 +37,19 @@ public class ProdutoRepository {
         }
     }
 
-    public Produto buscarProduto(String nome){
-        final String sql = "select * from Estoque where nome like ?;";
+    public Produto buscarProduto(Long id){
+        final String sql = "select * from Estoque where id = ?;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
-            declaracaoPreparada.setString(1, "%" + nome + "%");
+            declaracaoPreparada.setLong(1, id);
             ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
 
             final String nomeResultado = resultadoInsercao.getString("nome");
             final double precoResultado = resultadoInsercao.getDouble("preco");
 
             Produto produtoInserido = new Produto(
+                    id,
                     nomeResultado,
                     precoResultado
             );
