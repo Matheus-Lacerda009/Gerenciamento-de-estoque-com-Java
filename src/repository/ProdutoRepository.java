@@ -45,7 +45,7 @@ public class ProdutoRepository {
         }
     }
 
-    public Produto buscarProduto(Long id){
+    public Produto buscarProdutoPorId(Long id){
         final String sql = "select * from Estoque where id = ?;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
@@ -59,6 +59,34 @@ public class ProdutoRepository {
 
                 Produto produtoInserido = new Produto(
                         id,
+                        nomeResultado,
+                        precoResultado
+                );
+
+                return produtoInserido;
+            } else {
+                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Produto buscarProdutoPorNome(String nome){
+        final String sql = "select * from Estoque where nome like ?;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            declaracaoPreparada.setString(1, "%" + nome + "%");
+            ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
+
+            if(resultadoInsercao.next()) {
+                final Long idResultado = resultadoInsercao.getLong("id");
+                final String nomeResultado = resultadoInsercao.getString("nome");
+                final double precoResultado = resultadoInsercao.getDouble("preco");
+
+                Produto produtoInserido = new Produto(
+                        idResultado,
                         nomeResultado,
                         precoResultado
                 );
