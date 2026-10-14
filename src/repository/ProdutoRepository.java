@@ -51,11 +51,11 @@ public class ProdutoRepository {
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
             declaracaoPreparada.setLong(1, id);
-            ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
+            ResultSet resultadoBusca = declaracaoPreparada.executeQuery();
 
-            if(resultadoInsercao.next()) {
-                final String nomeResultado = resultadoInsercao.getString("nome");
-                final double precoResultado = resultadoInsercao.getDouble("preco");
+            if(resultadoBusca.next()) {
+                final String nomeResultado = resultadoBusca.getString("nome");
+                final double precoResultado = resultadoBusca.getDouble("preco");
 
                 Produto produtoInserido = new Produto(
                         id,
@@ -78,12 +78,12 @@ public class ProdutoRepository {
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
             declaracaoPreparada.setString(1, "%" + nome + "%");
-            ResultSet resultadoInsercao = declaracaoPreparada.executeQuery();
+            ResultSet resultadoBusca = declaracaoPreparada.executeQuery();
 
-            if(resultadoInsercao.next()) {
-                final Long idResultado = resultadoInsercao.getLong("id");
-                final String nomeResultado = resultadoInsercao.getString("nome");
-                final double precoResultado = resultadoInsercao.getDouble("preco");
+            if(resultadoBusca.next()) {
+                final Long idResultado = resultadoBusca.getLong("id");
+                final String nomeResultado = resultadoBusca.getString("nome");
+                final double precoResultado = resultadoBusca.getDouble("preco");
 
                 Produto produtoInserido = new Produto(
                         idResultado,
