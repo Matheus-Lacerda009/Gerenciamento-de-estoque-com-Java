@@ -143,4 +143,17 @@ public class ProdutoRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public void deletarProduto(Long id){
+        final String sql = "update Estoque set ativo = false where id = ?;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            declaracaoPreparada.setLong(1, id);
+            declaracaoPreparada.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
