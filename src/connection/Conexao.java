@@ -16,7 +16,7 @@ public class Conexao {
         try{
             return DriverManager.getConnection(URL, USUARIO, SENHA);
         } catch(SQLException e){
-            throw new FalhaConexaoBancoException("Impossível se conectar com o banco!");
+            throw new FalhaConexaoBancoException("Impossível se conectar com o banco! " + e.getMessage());
         }
     }
 }

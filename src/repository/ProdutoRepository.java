@@ -1,6 +1,7 @@
 package repository;
 
 import connection.Conexao;
+import exception.ErroAtualizacaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
 import model.Produto;
@@ -118,6 +119,26 @@ public class ProdutoRepository {
             }
 
             return produtosEstoque;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Produto atualizarProduto(Produto produto, Long id){
+        final String sql = "update Estoque set nome = ?, preco = ? where id = ?;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            declaracaoPreparada.setString(1, produto.getNome());
+            declaracaoPreparada.setDouble(2, produto.getPreco());
+            declaracaoPreparada.setLong(3, id);
+            int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
+
+            if(quantidadeDeLinhasAfetadas != 0) {
+                return produto;
+            } else {
+                throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

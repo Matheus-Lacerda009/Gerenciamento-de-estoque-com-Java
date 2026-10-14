@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Gerenciador-de-estoque-com-Java.iml" filepath="$PROJECT_DIR$/Gerenciador-de-estoque-com-Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Gerenciamento-de-estoque-com-Java.iml" filepath="$PROJECT_DIR$/Gerenciamento-de-estoque-com-Java.iml" />
     </modules>
   </component>
 </project>
