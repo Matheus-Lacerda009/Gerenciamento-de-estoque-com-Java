@@ -23,20 +23,14 @@ public class ProdutoRepository {
             declaracaoPreparada.setDouble(2, produto.getPreco());
             declaracaoPreparada.executeUpdate();
 
-            ResultSet resultadoInsercao = declaracaoPreparada.getResultSet();
+            ResultSet resultadoInsercao = declaracaoPreparada.getGeneratedKeys();
 
             if(resultadoInsercao.next()) {
                 final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
-                final String nomeResultado = resultadoInsercao.getString("nome");
-                final double precoResultado = resultadoInsercao.getDouble("preco");
 
-                Produto produtoInserido = new Produto(
-                        idResultado,
-                        nomeResultado,
-                        precoResultado
-                );
+                produto.setId(idResultado);
 
-                return produtoInserido;
+                return produto;
             } else {
                 throw new ErroInsercaoException("Não foi retornado nenhuma informação da inserção do produto!");
             }
