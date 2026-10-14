@@ -27,4 +27,8 @@ public class Produto {
     public double getPreco() {
         return preco;
     }
+
+    public void setId(Long id){
+        this.id = id;
+    }
 }
