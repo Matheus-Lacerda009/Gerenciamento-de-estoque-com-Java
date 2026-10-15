@@ -1,5 +1,7 @@
 package dto;
 
+import model.Produto;
+
 public class InserirAtualizarProdutoDTO {
     private String nome;
     private double preco;
@@ -21,5 +23,13 @@ public class InserirAtualizarProdutoDTO {
 
     public int getQuantidade() {
         return quantidade;
+    }
+
+    public Produto paraModel(){
+        return new Produto(
+                nome,
+                preco,
+                quantidade
+        );
     }
 }

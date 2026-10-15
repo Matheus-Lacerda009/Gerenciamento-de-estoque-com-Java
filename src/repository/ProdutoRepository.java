@@ -54,14 +54,14 @@ public class ProdutoRepository {
                 final double precoResultado = resultadoBusca.getDouble("preco");
                 final int quantidadeResultado = resultadoBusca.getInt("quantidade");
 
-                Produto produtoInserido = new Produto(
+                Produto produtoBusca = new Produto(
                         id,
                         nomeResultado,
                         precoResultado,
                         quantidadeResultado
                 );
 
-                return produtoInserido;
+                return produtoBusca;
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
@@ -84,14 +84,14 @@ public class ProdutoRepository {
                 final double precoResultado = resultadoBusca.getDouble("preco");
                 final int quantidadeResultado = resultadoBusca.getInt("quantidade");
 
-                Produto produtoInserido = new Produto(
+                Produto produtoBusca = new Produto(
                         idResultado,
                         nomeResultado,
                         precoResultado,
                         quantidadeResultado
                 );
 
-                return produtoInserido;
+                return produtoBusca;
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
@@ -143,6 +143,7 @@ public class ProdutoRepository {
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas != 0) {
+                produto.setId(id);
                 return produto;
             } else {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
