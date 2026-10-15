@@ -41,7 +41,7 @@ public class ProdutoRepository {
     }
 
     public Produto buscarProdutoPorId(Long id){
-        final String sql = "select * from Estoque where id = ?;";
+        final String sql = "select * from Estoque where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -68,7 +68,7 @@ public class ProdutoRepository {
     }
 
     public Produto buscarProdutoPorNome(String nome){
-        final String sql = "select * from Estoque where nome like ?;";
+        final String sql = "select * from Estoque where nome like ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -96,7 +96,7 @@ public class ProdutoRepository {
     }
 
     public List<Produto> listarProduto(){
-        final String sql = "select * from Estoque;";
+        final String sql = "select * from Estoque where ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -125,7 +125,7 @@ public class ProdutoRepository {
     }
 
     public Produto atualizarProduto(Produto produto, Long id){
-        final String sql = "update Estoque set nome = ?, preco = ? where id = ?;";
+        final String sql = "update Estoque set nome = ?, preco = ? where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -145,7 +145,7 @@ public class ProdutoRepository {
     }
 
     public void deletarProduto(Long id){
-        final String sql = "update Estoque set ativo = false where id = ?;";
+        final String sql = "update Estoque set ativo = false where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -158,7 +158,7 @@ public class ProdutoRepository {
     }
 
     public void venderProduto(Long id, int quantidade){
-        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and quantidade - ? >= 0;";
+        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and quantidade - ? >= 0 and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
@@ -176,7 +176,7 @@ public class ProdutoRepository {
     }
 
     public void adicionarProdutoEstoque(Long id, int quantidade){
-        final String sql = "update Estoque set quantidade = quantidade + ? where id = ?;";
+        final String sql = "update Estoque set quantidade = quantidade + ? where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
