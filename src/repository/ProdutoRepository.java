@@ -156,4 +156,22 @@ public class ProdutoRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public void venderProduto(Long id, int quantidade){
+        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and quantidade - ? >= 0;";
+
+        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+
+            declaracaoPreparada.setInt(1, quantidade);
+            declaracaoPreparada.setLong(2, id);
+            declaracaoPreparada.setInt(3, quantidade);
+            int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
+
+            if(quantidadeDeLinhasAfetadas == 0) {
+                throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
