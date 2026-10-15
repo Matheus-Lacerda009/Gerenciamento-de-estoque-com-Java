@@ -10,4 +10,25 @@ public class Produto {
         this.nome = nome;
         this.preco = preco;
     }
+
+    public Produto(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setId(Long id){
+        this.id = id;
+    }
 }
