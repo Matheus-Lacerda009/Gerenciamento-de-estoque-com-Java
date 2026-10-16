@@ -28,7 +28,7 @@ public class ProdutoRepository {
             ResultSet resultadoInsercao = declaracaoPreparada.getGeneratedKeys();
 
             if(resultadoInsercao.next()) {
-                final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
+                final Long idResultado = resultadoInsercao.getLong(1);
 
                 produto.setId(idResultado);
 
