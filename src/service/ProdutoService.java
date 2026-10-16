@@ -1,10 +1,7 @@
 package service;
 
 import dto.InserirAtualizarProdutoDTO;
-import exception.DadosInvalidosAdicaoProdutosException;
-import exception.DadosInvalidosVendaException;
-import exception.ErroInsercaoException;
-import exception.NenhumResultadoEncontradoException;
+import exception.*;
 import model.Produto;
 import repository.ProdutoRepository;
 
@@ -76,10 +73,12 @@ public class ProdutoService {
 
     public void venderProduto(Long id, int quantidade){
         //Valida a existência do produto. Lança uma exceção caso não encontre
-        produtoRepository.buscarProdutoPorId(id);
+        Produto produtoVendido = produtoRepository.buscarProdutoPorId(id);
 
         if(quantidade < 0){
             throw new DadosInvalidosVendaException("A quantidade não pode ser menor que 0!");
+        } else if(produtoVendido.getQuantidade() < quantidade){
+            throw new QuantidadeInsuficienteException("A quantidade de produtos não é o suficiente para suprir a venda!");
         }
 
         produtoRepository.venderProduto(id, quantidade);
