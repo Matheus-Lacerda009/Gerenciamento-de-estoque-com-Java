@@ -190,7 +190,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
 
     @Override
     public void venderProduto(Long id, int quantidade){
-        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true;";
+        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true and quantidade >= ?;";
 
         try(
             Connection conexao = Conexao.conectando();
@@ -199,6 +199,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
 
             declaracaoPreparada.setInt(1, quantidade);
             declaracaoPreparada.setLong(2, id);
+            declaracaoPreparada.setInt(3, quantidade);
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas == 0) {
