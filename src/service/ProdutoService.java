@@ -12,7 +12,7 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository = new ProdutoRepository();
 
-    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO){
+    private void validarDTO(InserirAtualizarProdutoDTO produtoDTO){
         if(produtoDTO.getNome().isBlank()){
             throw new ErroInsercaoException("O nome não pode ser vazio!");
         } else if(produtoDTO.getQuantidade() < 0){
@@ -20,6 +20,10 @@ public class ProdutoService {
         } else if(produtoDTO.getPreco() < 0){
             throw new ErroInsercaoException("O preço não pode ser menor que 0!");
         }
+    }
+
+    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO){
+        validarDTO(produtoDTO);
 
         Produto produtoInserido = produtoDTO.paraModel();
         Produto respostaBanco = produtoRepository.inserirProduto(produtoInserido);
@@ -50,13 +54,7 @@ public class ProdutoService {
     }
 
     public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id){
-        if(produtoDTO.getNome().isBlank()){
-            throw new ErroInsercaoException("O nome não pode ser vazio!");
-        } else if(produtoDTO.getQuantidade() < 0){
-            throw new ErroInsercaoException("A quantidade não pode ser menor que 0!");
-        } else if(produtoDTO.getPreco() < 0){
-            throw new ErroInsercaoException("O preço não pode ser menor que 0!");
-        }
+        validarDTO(produtoDTO);
 
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
