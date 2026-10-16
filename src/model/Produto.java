@@ -38,4 +38,12 @@ public class Produto {
     public void setId(Long id){
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Id - " + id +
+                "\nNome - " + nome +
+                "\nPreço - " + preco +
+                "\nQuantidade - " + quantidade;
+    }
 }

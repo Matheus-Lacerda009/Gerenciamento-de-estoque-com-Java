@@ -28,7 +28,7 @@ public class ProdutoRepository {
             ResultSet resultadoInsercao = declaracaoPreparada.getGeneratedKeys();
 
             if(resultadoInsercao.next()) {
-                final Long idResultado = resultadoInsercao.getLong("GENERATED_KEYS");
+                final Long idResultado = resultadoInsercao.getLong(1);
 
                 produto.setId(idResultado);
 
@@ -167,13 +167,12 @@ public class ProdutoRepository {
     }
 
     public void venderProduto(Long id, int quantidade){
-        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and quantidade - ? >= 0 and ativo = true;";
+        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
             declaracaoPreparada.setInt(1, quantidade);
             declaracaoPreparada.setLong(2, id);
-            declaracaoPreparada.setInt(3, quantidade);
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas == 0) {
