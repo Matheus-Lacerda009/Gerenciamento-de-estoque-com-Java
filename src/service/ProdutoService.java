@@ -5,7 +5,6 @@ import exception.*;
 import interfaces.ProdutoRepositoryInterface;
 import interfaces.ProdutoServiceInterface;
 import model.Produto;
-import repository.ProdutoRepository;
 
 import java.util.List;
 

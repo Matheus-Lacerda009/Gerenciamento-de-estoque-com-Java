@@ -6,7 +6,6 @@ import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
 import interfaces.ProdutoServiceInterface;
 import model.Produto;
-import service.ProdutoService;
 
 import java.util.InputMismatchException;
 import java.util.List;
