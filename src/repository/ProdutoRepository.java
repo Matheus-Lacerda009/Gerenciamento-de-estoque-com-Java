@@ -16,12 +16,13 @@ import java.util.List;
 public class ProdutoRepository {
 
     public Produto inserirProduto(Produto produto){
-        final String sql = "insert into Estoque(nome, preco) values (?, ?);";
+        final String sql = "insert into Estoque(nome, preco, quantidade) values (?, ?, ?);";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
             declaracaoPreparada.setString(1, produto.getNome());
             declaracaoPreparada.setDouble(2, produto.getPreco());
+            declaracaoPreparada.setInt(3, produto.getQuantidade());
             declaracaoPreparada.executeUpdate();
 
             ResultSet resultadoInsercao = declaracaoPreparada.getGeneratedKeys();
@@ -51,14 +52,16 @@ public class ProdutoRepository {
             if(resultadoBusca.next()) {
                 final String nomeResultado = resultadoBusca.getString("nome");
                 final double precoResultado = resultadoBusca.getDouble("preco");
+                final int quantidadeResultado = resultadoBusca.getInt("quantidade");
 
-                Produto produtoInserido = new Produto(
+                Produto produtoBusca = new Produto(
                         id,
                         nomeResultado,
-                        precoResultado
+                        precoResultado,
+                        quantidadeResultado
                 );
 
-                return produtoInserido;
+                return produtoBusca;
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
@@ -79,14 +82,16 @@ public class ProdutoRepository {
                 final Long idResultado = resultadoBusca.getLong("id");
                 final String nomeResultado = resultadoBusca.getString("nome");
                 final double precoResultado = resultadoBusca.getDouble("preco");
+                final int quantidadeResultado = resultadoBusca.getInt("quantidade");
 
-                Produto produtoInserido = new Produto(
+                Produto produtoBusca = new Produto(
                         idResultado,
                         nomeResultado,
-                        precoResultado
+                        precoResultado,
+                        quantidadeResultado
                 );
 
-                return produtoInserido;
+                return produtoBusca;
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
@@ -108,11 +113,13 @@ public class ProdutoRepository {
                 final Long idResultado = resultadoBusca.getLong("id");
                 final String nomeResultado = resultadoBusca.getString("nome");
                 final double precoResultado = resultadoBusca.getDouble("preco");
+                final int quantidadeResultado = resultadoBusca.getInt("quantidade");
 
                 Produto produto = new Produto(
                         idResultado,
                         nomeResultado,
-                        precoResultado
+                        precoResultado,
+                        quantidadeResultado
                 );
 
                 produtosEstoque.add(produto);
@@ -125,16 +132,18 @@ public class ProdutoRepository {
     }
 
     public Produto atualizarProduto(Produto produto, Long id){
-        final String sql = "update Estoque set nome = ?, preco = ? where id = ? and ativo = true;";
+        final String sql = "update Estoque set nome = ?, preco = ?, quantidade = ? where id = ? and ativo = true;";
 
         try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
 
             declaracaoPreparada.setString(1, produto.getNome());
             declaracaoPreparada.setDouble(2, produto.getPreco());
-            declaracaoPreparada.setLong(3, id);
+            declaracaoPreparada.setInt(3, produto.getQuantidade());
+            declaracaoPreparada.setLong(4, id);
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas != 0) {
+                produto.setId(id);
                 return produto;
             } else {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
