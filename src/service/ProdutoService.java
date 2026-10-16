@@ -2,8 +2,11 @@ package service;
 
 import dto.InserirAtualizarProdutoDTO;
 import exception.ErroInsercaoException;
+import exception.NenhumResultadoEncontradoException;
 import model.Produto;
 import repository.ProdutoRepository;
+
+import java.util.List;
 
 public class ProdutoService {
 
@@ -34,5 +37,15 @@ public class ProdutoService {
         Produto respostaBanco = produtoRepository.buscarProdutoPorNome(nome);
 
         return respostaBanco;
+    }
+
+    public List<Produto> listarProdutos(){
+        List<Produto> produtosEstoque = produtoRepository.listarProduto();
+
+        if(produtosEstoque.isEmpty()){
+            throw new NenhumResultadoEncontradoException("Não existe nenhum produto cadastrado!");
+        }
+
+        return produtosEstoque;
     }
 }
