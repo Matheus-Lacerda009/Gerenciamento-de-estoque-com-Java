@@ -48,4 +48,22 @@ public class ProdutoService {
 
         return produtosEstoque;
     }
+
+    public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id){
+        if(produtoDTO.getNome().isBlank()){
+            throw new ErroInsercaoException("O nome não pode ser vazio!");
+        } else if(produtoDTO.getQuantidade() < 0){
+            throw new ErroInsercaoException("A quantidade não pode ser menor que 0!");
+        } else if(produtoDTO.getPreco() < 0){
+            throw new ErroInsercaoException("O preço não pode ser menor que 0!");
+        }
+
+        //Valida a existência do produto. Lança uma exceção caso não encontre
+        produtoRepository.buscarProdutoPorId(id);
+
+        Produto produtoInserido = produtoDTO.paraModel();
+        Produto respostaBanco = produtoRepository.atualizarProduto(produtoInserido, id);
+
+        return respostaBanco;
+    }
 }
