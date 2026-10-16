@@ -4,14 +4,16 @@ import connection.Conexao;
 import exception.ErroAtualizacaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
+import interfaces.ProdutoRepositoryInterface;
 import model.Produto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoRepository {
+public class ProdutoRepository implements ProdutoRepositoryInterface {
 
+    @Override
     public Produto inserirProduto(Produto produto){
         final String sql = "insert into Estoque(nome, preco, quantidade) values (?, ?, ?);";
 
@@ -41,6 +43,7 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public Produto buscarProdutoPorId(Long id){
         final String sql = "select * from Estoque where id = ? and ativo = true;";
 
@@ -73,12 +76,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public Produto buscarProdutoPorNome(String nome){
         final String sql = "select * from Estoque where nome like ? and ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             declaracaoPreparada.setString(1, "%" + nome + "%");
@@ -106,12 +110,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public List<Produto> listarProduto(){
         final String sql = "select * from Estoque where ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             List<Produto> produtosEstoque = new ArrayList<>();
@@ -140,12 +145,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public Produto atualizarProduto(Produto produto, Long id){
         final String sql = "update Estoque set nome = ?, preco = ?, quantidade = ? where id = ? and ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             declaracaoPreparada.setString(1, produto.getNome());
@@ -165,12 +171,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public void deletarProduto(Long id){
         final String sql = "update Estoque set ativo = false where id = ? and ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             declaracaoPreparada.setLong(1, id);
@@ -181,12 +188,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public void venderProduto(Long id, int quantidade){
         final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             declaracaoPreparada.setInt(1, quantidade);
@@ -201,12 +209,13 @@ public class ProdutoRepository {
         }
     }
 
+    @Override
     public void adicionarProdutoEstoque(Long id, int quantidade){
         final String sql = "update Estoque set quantidade = quantidade + ? where id = ? and ativo = true;";
 
         try(
-                Connection conexao = Conexao.conectando();
-                PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
         ){
 
             declaracaoPreparada.setInt(1, quantidade);

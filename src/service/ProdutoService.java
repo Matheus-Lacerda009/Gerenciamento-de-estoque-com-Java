@@ -2,6 +2,7 @@ package service;
 
 import dto.InserirAtualizarProdutoDTO;
 import exception.*;
+import interfaces.ProdutoRepositoryInterface;
 import interfaces.ProdutoServiceInterface;
 import model.Produto;
 import repository.ProdutoRepository;
@@ -9,10 +10,9 @@ import repository.ProdutoRepository;
 import java.util.List;
 
 public class ProdutoService implements ProdutoServiceInterface {
+    private final ProdutoRepositoryInterface produtoRepository;
 
-    private final ProdutoRepository produtoRepository;
-
-    public ProdutoService(ProdutoRepository produtoRepository) {
+    public ProdutoService(ProdutoRepositoryInterface produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
 
