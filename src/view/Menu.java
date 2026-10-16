@@ -19,7 +19,7 @@ public class Menu {
         this.produtoService = produtoService;
     }
 
-    public void inicializarMenu(){
+    public void iniciar(){
         int opcao = -1;
         Scanner scanner = new Scanner(System.in);
 

@@ -10,6 +10,6 @@ public class Main {
         ProdutoService produtoService = new ProdutoService(produtoRepository);
 
         Menu menu = new Menu(produtoService);
-        menu.inicializarMenu();
+        menu.iniciar();
     }
 }
