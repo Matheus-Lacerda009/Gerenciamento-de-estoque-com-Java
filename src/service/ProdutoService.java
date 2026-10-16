@@ -2,14 +2,19 @@ package service;
 
 import dto.InserirAtualizarProdutoDTO;
 import exception.*;
+import interfaces.ProdutoServiceInterface;
 import model.Produto;
 import repository.ProdutoRepository;
 
 import java.util.List;
 
-public class ProdutoService {
+public class ProdutoService implements ProdutoServiceInterface {
 
-    private final ProdutoRepository produtoRepository = new ProdutoRepository();
+    private final ProdutoRepository produtoRepository;
+
+    public ProdutoService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
+    }
 
     private void validarDTO(InserirAtualizarProdutoDTO produtoDTO){
         if(produtoDTO.getNome().isBlank()){
@@ -21,6 +26,7 @@ public class ProdutoService {
         }
     }
 
+    @Override
     public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO){
         validarDTO(produtoDTO);
 
@@ -30,18 +36,21 @@ public class ProdutoService {
         return respostaBanco;
     }
 
+    @Override
     public Produto buscarProdutoPorId(Long id){
         Produto respostaBanco = produtoRepository.buscarProdutoPorId(id);
 
         return respostaBanco;
     }
 
+    @Override
     public Produto buscarProdutoPorNome(String nome){
         Produto respostaBanco = produtoRepository.buscarProdutoPorNome(nome);
 
         return respostaBanco;
     }
 
+    @Override
     public List<Produto> listarProdutos(){
         List<Produto> produtosEstoque = produtoRepository.listarProduto();
 
@@ -52,6 +61,7 @@ public class ProdutoService {
         return produtosEstoque;
     }
 
+    @Override
     public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id){
         validarDTO(produtoDTO);
 
@@ -64,6 +74,7 @@ public class ProdutoService {
         return respostaBanco;
     }
 
+    @Override
     public void deletarProduto(Long id){
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
@@ -71,6 +82,7 @@ public class ProdutoService {
         produtoRepository.deletarProduto(id);
     }
 
+    @Override
     public void venderProduto(Long id, int quantidade){
         //Valida a existência do produto. Lança uma exceção caso não encontre
         Produto produtoVendido = produtoRepository.buscarProdutoPorId(id);
@@ -84,6 +96,7 @@ public class ProdutoService {
         produtoRepository.venderProduto(id, quantidade);
     }
 
+    @Override
     public void adicionarProdutoEstoque(Long id, int quantidade){
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);

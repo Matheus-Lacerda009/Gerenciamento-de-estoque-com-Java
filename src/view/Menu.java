@@ -4,6 +4,7 @@ import dto.InserirAtualizarProdutoDTO;
 import exception.ErroAtualizacaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
+import interfaces.ProdutoServiceInterface;
 import model.Produto;
 import service.ProdutoService;
 
@@ -13,17 +14,15 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private final ProdutoService produtoService;
+    private final ProdutoServiceInterface produtoService;
 
-    public Menu(ProdutoService produtoService) {
+    public Menu(ProdutoServiceInterface produtoService) {
         this.produtoService = produtoService;
     }
 
     public void inicializarMenu(){
         int opcao = -1;
         Scanner scanner = new Scanner(System.in);
-
-        final ProdutoService produtoService = new ProdutoService();
 
         System.out.println(
                 "Bem vindo! Você está entrando no sistema de gerenciamento de estoque da Empresa X!"
