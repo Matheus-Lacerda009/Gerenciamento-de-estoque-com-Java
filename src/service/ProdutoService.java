@@ -23,4 +23,10 @@ public class ProdutoService {
 
         return respostaBanco;
     }
+
+    public Produto buscarProdutoPorId(Long id){
+        Produto respostaBanco = produtoRepository.buscarProdutoPorId(id);
+
+        return respostaBanco;
+    }
 }
