@@ -1,6 +1,9 @@
 package view;
 
 import dto.InserirAtualizarProdutoDTO;
+import exception.ErroAtualizacaoException;
+import exception.ErroInsercaoException;
+import exception.ProdutoNaoEncontradoException;
 import model.Produto;
 import service.ProdutoService;
 
@@ -90,6 +93,8 @@ public class Menu {
 
                 //Limpando buffer
                 scanner.nextLine();
+            } catch(Exception e){
+                System.out.println("Erro: Erro não identificado. Por favor, reporte ao desenvolvedor");
             }
         } while(opcao != 0);
 
@@ -97,148 +102,206 @@ public class Menu {
     }
 
     public void inserirProdutoMenu(Scanner scanner){
-        System.out.println("Inserindo produto:");
+        try {
+            System.out.println("Inserindo produto:");
 
-        System.out.println("Insira o nome do produto:");
-        String nomeInsercao = scanner.nextLine();
+            System.out.println("Insira o nome do produto:");
+            String nomeInsercao = scanner.nextLine();
 
-        System.out.println("Insira o preço do produto:");
-        double precoInsercao = scanner.nextDouble();
+            System.out.println("Insira o preço do produto:");
+            double precoInsercao = scanner.nextDouble();
 
-        System.out.println("Insira a quantidade do produto:");
-        int quantidadeInsercao = scanner.nextInt();
+            System.out.println("Insira a quantidade do produto:");
+            int quantidadeInsercao = scanner.nextInt();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        InserirAtualizarProdutoDTO produtoDTOInsercao =
-                new InserirAtualizarProdutoDTO(
-                        nomeInsercao,
-                        precoInsercao,
-                        quantidadeInsercao
-                );
+            InserirAtualizarProdutoDTO produtoDTOInsercao =
+                    new InserirAtualizarProdutoDTO(
+                            nomeInsercao,
+                            precoInsercao,
+                            quantidadeInsercao
+                    );
 
-        Produto resultadoInsercao = produtoService.inserirProduto(produtoDTOInsercao);
+            Produto resultadoInsercao = produtoService.inserirProduto(produtoDTOInsercao);
 
-        System.out.println("Produto inserido com sucesso:\n" + resultadoInsercao);
+            System.out.println("Produto inserido com sucesso:\n" + resultadoInsercao);
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ErroInsercaoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void buscarProdutoPorIdMenu(Scanner scanner){
-        System.out.println("Buscando produto (por id):");
+        try{
+            System.out.println("Buscando produto (por id):");
 
-        System.out.println("Insira o id do produto:");
-        Long idBusca = scanner.nextLong();
+            System.out.println("Insira o id do produto:");
+            Long idBusca = scanner.nextLong();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        Produto resultadoBuscaId = produtoService.buscarProdutoPorId(idBusca);
+            Produto resultadoBuscaId = produtoService.buscarProdutoPorId(idBusca);
 
-        System.out.println("Resultado da busca:\n" + resultadoBuscaId);
+            System.out.println("Resultado da busca:\n" + resultadoBuscaId);
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ProdutoNaoEncontradoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void buscarProdutoPorNomeMenu(Scanner scanner){
-        System.out.println("Buscando produto (por nome):");
+        try {
+            System.out.println("Buscando produto (por nome):");
 
-        System.out.println("Insira o nome do produto:");
-        String nomeBusca = scanner.nextLine();
+            System.out.println("Insira o nome do produto:");
+            String nomeBusca = scanner.nextLine();
 
-        Produto resultadoBuscaNome = produtoService.buscarProdutoPorNome(nomeBusca);
+            Produto resultadoBuscaNome = produtoService.buscarProdutoPorNome(nomeBusca);
 
-        System.out.println("Resultado da busca:\n" + resultadoBuscaNome);
+            System.out.println("Resultado da busca:\n" + resultadoBuscaNome);
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ProdutoNaoEncontradoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void listarProdutosMenu(Scanner scanner){
-        System.out.println("Listando produtos:");
+        try {
+            System.out.println("Listando produtos:");
 
-        List<Produto> produtosEstoque = produtoService.listarProdutos();
+            List<Produto> produtosEstoque = produtoService.listarProdutos();
 
-        System.out.println("---------------------------------------");
-
-        for(Produto produto : produtosEstoque){
-            System.out.println(produto);
             System.out.println("---------------------------------------");
+
+            for (Produto produto : produtosEstoque) {
+                System.out.println(produto);
+                System.out.println("---------------------------------------");
+            }
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
 
     public void atualizarProdutoMenu(Scanner scanner){
-        System.out.println("Atualizando produto:");
+        try {
+            System.out.println("Atualizando produto:");
 
-        System.out.println("Insira o id do produto:");
-        Long idAtualizacao = scanner.nextLong();
+            System.out.println("Insira o id do produto:");
+            Long idAtualizacao = scanner.nextLong();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        System.out.println("Insira o nome do produto:");
-        String nomeAtualizacao = scanner.nextLine();
+            System.out.println("Insira o nome do produto:");
+            String nomeAtualizacao = scanner.nextLine();
 
-        System.out.println("Insira o preço do produto:");
-        double precoAtualizacao = scanner.nextDouble();
+            System.out.println("Insira o preço do produto:");
+            double precoAtualizacao = scanner.nextDouble();
 
-        System.out.println("Insira a quantidade do produto:");
-        int quantidadeAtualizacao = scanner.nextInt();
+            System.out.println("Insira a quantidade do produto:");
+            int quantidadeAtualizacao = scanner.nextInt();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        InserirAtualizarProdutoDTO produtoDTOAtualizacao =
-                new InserirAtualizarProdutoDTO(
-                        nomeAtualizacao,
-                        precoAtualizacao,
-                        quantidadeAtualizacao
-                );
+            InserirAtualizarProdutoDTO produtoDTOAtualizacao =
+                    new InserirAtualizarProdutoDTO(
+                            nomeAtualizacao,
+                            precoAtualizacao,
+                            quantidadeAtualizacao
+                    );
 
-        Produto resultadoAtualizacao = produtoService.atualizarProduto(produtoDTOAtualizacao, idAtualizacao);
+            Produto resultadoAtualizacao = produtoService.atualizarProduto(produtoDTOAtualizacao, idAtualizacao);
 
-        System.out.println("Produto atualizado com sucesso:\n" + resultadoAtualizacao);
+            System.out.println("Produto atualizado com sucesso:\n" + resultadoAtualizacao);
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ErroAtualizacaoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void deletarProdutoMenu(Scanner scanner){
-        System.out.println("Excluindo produto:");
+        try {
+            System.out.println("Excluindo produto:");
 
-        System.out.println("Insira o id do produto:");
-        Long idExclusao = scanner.nextLong();
+            System.out.println("Insira o id do produto:");
+            Long idExclusao = scanner.nextLong();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        produtoService.deletarProduto(idExclusao);
+            produtoService.deletarProduto(idExclusao);
 
-        System.out.println("Sucesso!");
+            System.out.println("Sucesso!");
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void venderProdutoMenu(Scanner scanner){
-        System.out.println("Vendendo produto:");
+        try {
+            System.out.println("Vendendo produto:");
 
-        System.out.println("Insira o id do produto:");
-        Long idVenda = scanner.nextLong();
+            System.out.println("Insira o id do produto:");
+            Long idVenda = scanner.nextLong();
 
-        System.out.println("Insira a quantidade que está sendo vendida:");
-        int quantidadeVenda = scanner.nextInt();
+            System.out.println("Insira a quantidade que está sendo vendida:");
+            int quantidadeVenda = scanner.nextInt();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        produtoService.venderProduto(idVenda, quantidadeVenda);
+            produtoService.venderProduto(idVenda, quantidadeVenda);
 
-        System.out.println("Sucesso!");
+            System.out.println("Sucesso!");
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ErroAtualizacaoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 
     public void adicionarProdutoEstoqueMenu(Scanner scanner){
-        System.out.println("Reabastecendo produto:");
+        try {
+            System.out.println("Reabastecendo produto:");
 
-        System.out.println("Insira o id do produto:");
-        Long idReabastecer = scanner.nextLong();
+            System.out.println("Insira o id do produto:");
+            Long idReabastecer = scanner.nextLong();
 
-        System.out.println("Insira a quantidade que está sendo adquirida:");
-        int quantidadeReabastecer = scanner.nextInt();
+            System.out.println("Insira a quantidade que está sendo adquirida:");
+            int quantidadeReabastecer = scanner.nextInt();
 
-        //Limpando buffer
-        scanner.nextLine();
+            //Limpando buffer
+            scanner.nextLine();
 
-        produtoService.adicionarProdutoEstoque(idReabastecer, quantidadeReabastecer);
+            produtoService.adicionarProdutoEstoque(idReabastecer, quantidadeReabastecer);
 
-        System.out.println("Sucesso!");
+            System.out.println("Sucesso!");
+        } catch(InputMismatchException e){
+            System.out.println("Erro: Entrada inválida! Tente novamente");
+        } catch(ErroAtualizacaoException e){
+            System.out.println(e.getMessage());
+        } catch(RuntimeException e){
+            System.out.println("Erro: Erro interno dentro do banco de dados");
+        }
     }
 }
