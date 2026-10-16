@@ -66,4 +66,11 @@ public class ProdutoService {
 
         return respostaBanco;
     }
+
+    public void deletarProduto(Long id){
+        //Valida a existência do produto. Lança uma exceção caso não encontre
+        produtoRepository.buscarProdutoPorId(id);
+
+        produtoRepository.deletarProduto(id);
+    }
 }
