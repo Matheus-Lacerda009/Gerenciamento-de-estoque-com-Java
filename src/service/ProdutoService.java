@@ -29,4 +29,10 @@ public class ProdutoService {
 
         return respostaBanco;
     }
+
+    public Produto buscarProdutoPorNome(String nome){
+        Produto respostaBanco = produtoRepository.buscarProdutoPorNome(nome);
+
+        return respostaBanco;
+    }
 }
