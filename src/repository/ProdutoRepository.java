@@ -2,6 +2,7 @@ package repository;
 
 import connection.Conexao;
 import exception.ErroAtualizacaoException;
+import exception.ErroExclusaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
 import interfaces.ProdutoRepositoryInterface;
@@ -180,6 +181,11 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
 
             declaracaoPreparada.setLong(1, id);
             declaracaoPreparada.executeUpdate();
+            int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
+
+            if(quantidadeDeLinhasAfetadas == 0) {
+                throw new ErroExclusaoException("Não foi retornado nenhuma informação da exclusão do produto!");
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
