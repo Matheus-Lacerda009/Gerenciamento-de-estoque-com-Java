@@ -97,7 +97,7 @@ public class Menu {
         scanner.close();
     }
 
-    public void inserirProdutoMenu(Scanner scanner){
+    private void inserirProdutoMenu(Scanner scanner){
         try {
             System.out.println("Inserindo produto:");
 
@@ -132,7 +132,7 @@ public class Menu {
         }
     }
 
-    public void buscarProdutoPorIdMenu(Scanner scanner){
+    private void buscarProdutoPorIdMenu(Scanner scanner){
         try{
             System.out.println("Buscando produto (por id):");
 
@@ -154,7 +154,7 @@ public class Menu {
         }
     }
 
-    public void buscarProdutoPorNomeMenu(Scanner scanner){
+    private void buscarProdutoPorNomeMenu(Scanner scanner){
         try {
             System.out.println("Buscando produto (por nome):");
 
@@ -173,7 +173,7 @@ public class Menu {
         }
     }
 
-    public void listarProdutosMenu(Scanner scanner){
+    private void listarProdutosMenu(Scanner scanner){
         try {
             System.out.println("Listando produtos:");
 
@@ -190,7 +190,7 @@ public class Menu {
         }
     }
 
-    public void atualizarProdutoMenu(Scanner scanner){
+    private void atualizarProdutoMenu(Scanner scanner){
         try {
             System.out.println("Atualizando produto:");
 
@@ -231,7 +231,7 @@ public class Menu {
         }
     }
 
-    public void deletarProdutoMenu(Scanner scanner){
+    private void deletarProdutoMenu(Scanner scanner){
         try {
             System.out.println("Excluindo produto:");
 
@@ -251,7 +251,7 @@ public class Menu {
         }
     }
 
-    public void venderProdutoMenu(Scanner scanner){
+    private void venderProdutoMenu(Scanner scanner){
         try {
             System.out.println("Vendendo produto:");
 
@@ -276,7 +276,7 @@ public class Menu {
         }
     }
 
-    public void adicionarProdutoEstoqueMenu(Scanner scanner){
+    private void adicionarProdutoEstoqueMenu(Scanner scanner){
         try {
             System.out.println("Reabastecendo produto:");
 
