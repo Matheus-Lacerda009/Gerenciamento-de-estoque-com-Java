@@ -85,10 +85,7 @@ public class Menu {
                         break;
                 }
             } catch(InputMismatchException e){
-                System.out.println(
-                        "Erro: Insira os caracteres com suas devidas tipagens!\n" +
-                                "Exemplo: Preço e quantidade não podem ser textos!"
-                );
+                System.out.println("Erro: Entrada inválida! Tente novamente");
 
                 //Limpando buffer
                 scanner.nextLine();
