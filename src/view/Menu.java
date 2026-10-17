@@ -7,6 +7,7 @@ import exception.ProdutoNaoEncontradoException;
 import interfaces.ProdutoServiceInterface;
 import model.Produto;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -129,7 +130,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ErroInsercaoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -151,7 +152,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ProdutoNaoEncontradoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -170,7 +171,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ProdutoNaoEncontradoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -187,7 +188,7 @@ public class Menu {
                 System.out.println(produto);
                 System.out.println("---------------------------------------");
             }
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -228,7 +229,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ErroAtualizacaoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -248,7 +249,7 @@ public class Menu {
             System.out.println("Sucesso!");
         } catch(InputMismatchException e){
             System.out.println("Erro: Entrada inválida! Tente novamente");
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -273,7 +274,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ErroAtualizacaoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }
@@ -298,7 +299,7 @@ public class Menu {
             System.out.println("Erro: Entrada inválida! Tente novamente");
         } catch(ErroAtualizacaoException e){
             System.out.println(e.getMessage());
-        } catch(RuntimeException e){
+        } catch(SQLException e){
             System.out.println("Erro: Erro interno dentro do banco de dados");
         }
     }

@@ -6,6 +6,7 @@ import interfaces.ProdutoRepositoryInterface;
 import interfaces.ProdutoServiceInterface;
 import model.Produto;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProdutoService implements ProdutoServiceInterface {
@@ -26,7 +27,7 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO){
+    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO) throws SQLException {
         validarDTO(produtoDTO);
 
         Produto produtoInserido = produtoDTO.paraModel();
@@ -36,21 +37,21 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public Produto buscarProdutoPorId(Long id){
+    public Produto buscarProdutoPorId(Long id) throws SQLException{
         Produto respostaBanco = produtoRepository.buscarProdutoPorId(id);
 
         return respostaBanco;
     }
 
     @Override
-    public Produto buscarProdutoPorNome(String nome){
+    public Produto buscarProdutoPorNome(String nome) throws SQLException{
         Produto respostaBanco = produtoRepository.buscarProdutoPorNome(nome);
 
         return respostaBanco;
     }
 
     @Override
-    public List<Produto> listarProdutos(){
+    public List<Produto> listarProdutos() throws SQLException{
         List<Produto> produtosEstoque = produtoRepository.listarProduto();
 
         if(produtosEstoque.isEmpty()){
@@ -61,7 +62,7 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id){
+    public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id) throws SQLException{
         validarDTO(produtoDTO);
 
         //Valida a existência do produto. Lança uma exceção caso não encontre
@@ -74,7 +75,7 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public void deletarProduto(Long id){
+    public void deletarProduto(Long id) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
 
@@ -82,7 +83,7 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public void venderProduto(Long id, int quantidade){
+    public void venderProduto(Long id, int quantidade) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         Produto produtoVendido = produtoRepository.buscarProdutoPorId(id);
 
@@ -96,7 +97,7 @@ public class ProdutoService implements ProdutoServiceInterface {
     }
 
     @Override
-    public void adicionarProdutoEstoque(Long id, int quantidade){
+    public void adicionarProdutoEstoque(Long id, int quantidade) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
 

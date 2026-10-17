@@ -14,7 +14,7 @@ import java.util.List;
 public class ProdutoRepository implements ProdutoRepositoryInterface {
 
     @Override
-    public Produto inserirProduto(Produto produto){
+    public Produto inserirProduto(Produto produto) throws SQLException{
         final String sql = "insert into Estoque(nome, preco, quantidade) values (?, ?, ?);";
 
         try(
@@ -44,7 +44,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public Produto buscarProdutoPorId(Long id){
+    public Produto buscarProdutoPorId(Long id) throws SQLException{
         final String sql = "select * from Estoque where id = ? and ativo = true;";
 
         try(
@@ -77,7 +77,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public Produto buscarProdutoPorNome(String nome){
+    public Produto buscarProdutoPorNome(String nome) throws SQLException{
         final String sql = "select * from Estoque where nome like ? and ativo = true;";
 
         try(
@@ -111,7 +111,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public List<Produto> listarProduto(){
+    public List<Produto> listarProduto() throws SQLException{
         final String sql = "select * from Estoque where ativo = true;";
 
         try(
@@ -146,7 +146,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public Produto atualizarProduto(Produto produto, Long id){
+    public Produto atualizarProduto(Produto produto, Long id) throws SQLException{
         final String sql = "update Estoque set nome = ?, preco = ?, quantidade = ? where id = ? and ativo = true;";
 
         try(
@@ -166,13 +166,11 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             } else {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void deletarProduto(Long id){
+    public void deletarProduto(Long id) throws SQLException{
         final String sql = "update Estoque set ativo = false where id = ? and ativo = true;";
 
         try(
@@ -189,7 +187,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public void venderProduto(Long id, int quantidade){
+    public void venderProduto(Long id, int quantidade) throws SQLException{
         final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true and quantidade >= ?;";
 
         try(
@@ -211,7 +209,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public void adicionarProdutoEstoque(Long id, int quantidade){
+    public void adicionarProdutoEstoque(Long id, int quantidade) throws SQLException{
         final String sql = "update Estoque set quantidade = quantidade + ? where id = ? and ativo = true;";
 
         try(
