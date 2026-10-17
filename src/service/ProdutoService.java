@@ -17,11 +17,11 @@ public class ProdutoService implements ProdutoServiceInterface {
 
     private void validarDTO(InserirAtualizarProdutoDTO produtoDTO){
         if(produtoDTO.getNome().isBlank()){
-            throw new ErroInsercaoException("O nome não pode ser vazio!");
+            throw new DadosDTOInvalidosException("O nome não pode ser vazio!");
         } else if(produtoDTO.getQuantidade() < 0){
-            throw new ErroInsercaoException("A quantidade não pode ser menor que 0!");
+            throw new DadosDTOInvalidosException("A quantidade não pode ser menor que 0!");
         } else if(produtoDTO.getPreco() < 0){
-            throw new ErroInsercaoException("O preço não pode ser menor que 0!");
+            throw new DadosDTOInvalidosException("O preço não pode ser menor que 0!");
         }
     }
 
