@@ -103,7 +103,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
 
                 return produtoBusca;
             } else {
-                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
+                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse nome!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
