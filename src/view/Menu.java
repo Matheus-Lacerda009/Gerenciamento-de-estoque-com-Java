@@ -93,7 +93,7 @@ public class Menu {
                 //Limpando buffer
                 scanner.nextLine();
             } catch(Exception e){
-                System.out.println("Erro: Erro não identificado. Por favor, reporte ao desenvolvedor");
+                System.out.println("Erro: Erro não identificado. Por favor, reporte ao desenvolvedor\n" + e.getMessage());
             }
         } while(opcao != 0);
 
