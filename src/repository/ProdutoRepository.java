@@ -180,7 +180,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
         ){
 
             declaracaoPreparada.setLong(1, id);
-            declaracaoPreparada.executeUpdate();
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas == 0) {
