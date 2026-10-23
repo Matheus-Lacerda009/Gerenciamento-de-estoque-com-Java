@@ -39,8 +39,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             } else {
                 throw new ErroInsercaoException("Não foi retornado nenhuma informação da inserção do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -72,8 +70,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -106,8 +102,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse nome!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -141,8 +135,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             }
 
             return produtosEstoque;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -186,8 +178,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
                 throw new ErroExclusaoException("Não foi retornado nenhuma informação da exclusão do produto!");
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -208,8 +198,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             if(quantidadeDeLinhasAfetadas == 0) {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da venda do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -229,8 +217,6 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
             if(quantidadeDeLinhasAfetadas == 0) {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da adição do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }
