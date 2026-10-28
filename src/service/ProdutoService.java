@@ -2,26 +2,32 @@ package service;
 
 import dto.InserirAtualizarProdutoDTO;
 import exception.*;
+import interfaces.ProdutoRepositoryInterface;
+import interfaces.ProdutoServiceInterface;
 import model.Produto;
-import repository.ProdutoRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
-public class ProdutoService {
+public class ProdutoService implements ProdutoServiceInterface {
+    private final ProdutoRepositoryInterface produtoRepository;
 
-    private final ProdutoRepository produtoRepository = new ProdutoRepository();
+    public ProdutoService(ProdutoRepositoryInterface produtoRepository) {
+        this.produtoRepository = produtoRepository;
+    }
 
     private void validarDTO(InserirAtualizarProdutoDTO produtoDTO){
         if(produtoDTO.getNome().isBlank()){
-            throw new ErroInsercaoException("O nome não pode ser vazio!");
+            throw new DadosDTOInvalidosException("O nome não pode ser vazio!");
         } else if(produtoDTO.getQuantidade() < 0){
-            throw new ErroInsercaoException("A quantidade não pode ser menor que 0!");
+            throw new DadosDTOInvalidosException("A quantidade não pode ser menor que 0!");
         } else if(produtoDTO.getPreco() < 0){
-            throw new ErroInsercaoException("O preço não pode ser menor que 0!");
+            throw new DadosDTOInvalidosException("O preço não pode ser menor que 0!");
         }
     }
 
-    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO){
+    @Override
+    public Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO) throws SQLException {
         validarDTO(produtoDTO);
 
         Produto produtoInserido = produtoDTO.paraModel();
@@ -30,19 +36,22 @@ public class ProdutoService {
         return respostaBanco;
     }
 
-    public Produto buscarProdutoPorId(Long id){
+    @Override
+    public Produto buscarProdutoPorId(Long id) throws SQLException{
         Produto respostaBanco = produtoRepository.buscarProdutoPorId(id);
 
         return respostaBanco;
     }
 
-    public Produto buscarProdutoPorNome(String nome){
+    @Override
+    public Produto buscarProdutoPorNome(String nome) throws SQLException{
         Produto respostaBanco = produtoRepository.buscarProdutoPorNome(nome);
 
         return respostaBanco;
     }
 
-    public List<Produto> listarProdutos(){
+    @Override
+    public List<Produto> listarProdutos() throws SQLException{
         List<Produto> produtosEstoque = produtoRepository.listarProduto();
 
         if(produtosEstoque.isEmpty()){
@@ -52,7 +61,8 @@ public class ProdutoService {
         return produtosEstoque;
     }
 
-    public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id){
+    @Override
+    public Produto atualizarProduto(InserirAtualizarProdutoDTO produtoDTO, Long id) throws SQLException{
         validarDTO(produtoDTO);
 
         //Valida a existência do produto. Lança uma exceção caso não encontre
@@ -64,14 +74,16 @@ public class ProdutoService {
         return respostaBanco;
     }
 
-    public void deletarProduto(Long id){
+    @Override
+    public void deletarProduto(Long id) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
 
         produtoRepository.deletarProduto(id);
     }
 
-    public void venderProduto(Long id, int quantidade){
+    @Override
+    public void venderProduto(Long id, int quantidade) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         Produto produtoVendido = produtoRepository.buscarProdutoPorId(id);
 
@@ -84,7 +96,8 @@ public class ProdutoService {
         produtoRepository.venderProduto(id, quantidade);
     }
 
-    public void adicionarProdutoEstoque(Long id, int quantidade){
+    @Override
+    public void adicionarProdutoEstoque(Long id, int quantidade) throws SQLException{
         //Valida a existência do produto. Lança uma exceção caso não encontre
         produtoRepository.buscarProdutoPorId(id);
 

@@ -2,23 +2,26 @@ package repository;
 
 import connection.Conexao;
 import exception.ErroAtualizacaoException;
+import exception.ErroExclusaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
+import interfaces.ProdutoRepositoryInterface;
 import model.Produto;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoRepository {
+public class ProdutoRepository implements ProdutoRepositoryInterface {
 
-    public Produto inserirProduto(Produto produto){
+    @Override
+    public Produto inserirProduto(Produto produto) throws SQLException{
         final String sql = "insert into Estoque(nome, preco, quantidade) values (?, ?, ?);";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ){
 
             declaracaoPreparada.setString(1, produto.getNome());
             declaracaoPreparada.setDouble(2, produto.getPreco());
@@ -36,15 +39,17 @@ public class ProdutoRepository {
             } else {
                 throw new ErroInsercaoException("Não foi retornado nenhuma informação da inserção do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public Produto buscarProdutoPorId(Long id){
+    @Override
+    public Produto buscarProdutoPorId(Long id) throws SQLException{
         final String sql = "select * from Estoque where id = ? and ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setLong(1, id);
             ResultSet resultadoBusca = declaracaoPreparada.executeQuery();
@@ -65,15 +70,17 @@ public class ProdutoRepository {
             } else {
                 throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public Produto buscarProdutoPorNome(String nome){
+    @Override
+    public Produto buscarProdutoPorNome(String nome) throws SQLException{
         final String sql = "select * from Estoque where nome like ? and ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setString(1, "%" + nome + "%");
             ResultSet resultadoBusca = declaracaoPreparada.executeQuery();
@@ -93,17 +100,19 @@ public class ProdutoRepository {
 
                 return produtoBusca;
             } else {
-                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse id!");
+                throw new ProdutoNaoEncontradoException("Não foi possível encontrar um produto com esse nome!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public List<Produto> listarProduto(){
+    @Override
+    public List<Produto> listarProduto() throws SQLException{
         final String sql = "select * from Estoque where ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             List<Produto> produtosEstoque = new ArrayList<>();
 
@@ -126,15 +135,17 @@ public class ProdutoRepository {
             }
 
             return produtosEstoque;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public Produto atualizarProduto(Produto produto, Long id){
+    @Override
+    public Produto atualizarProduto(Produto produto, Long id) throws SQLException{
         final String sql = "update Estoque set nome = ?, preco = ?, quantidade = ? where id = ? and ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setString(1, produto.getNome());
             declaracaoPreparada.setDouble(2, produto.getPreco());
@@ -148,45 +159,56 @@ public class ProdutoRepository {
             } else {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da atualização do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public void deletarProduto(Long id){
+    @Override
+    public void deletarProduto(Long id) throws SQLException{
         final String sql = "update Estoque set ativo = false where id = ? and ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setLong(1, id);
-            declaracaoPreparada.executeUpdate();
+            int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(quantidadeDeLinhasAfetadas == 0) {
+                throw new ErroExclusaoException("Não foi retornado nenhuma informação da exclusão do produto!");
+            }
+
         }
     }
 
-    public void venderProduto(Long id, int quantidade){
-        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true;";
+    @Override
+    public void venderProduto(Long id, int quantidade) throws SQLException{
+        final String sql = "update Estoque set quantidade = quantidade - ? where id = ? and ativo = true and quantidade >= ?;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setInt(1, quantidade);
             declaracaoPreparada.setLong(2, id);
+            declaracaoPreparada.setInt(3, quantidade);
             int quantidadeDeLinhasAfetadas = declaracaoPreparada.executeUpdate();
 
             if(quantidadeDeLinhasAfetadas == 0) {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da venda do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public void adicionarProdutoEstoque(Long id, int quantidade){
+    @Override
+    public void adicionarProdutoEstoque(Long id, int quantidade) throws SQLException{
         final String sql = "update Estoque set quantidade = quantidade + ? where id = ? and ativo = true;";
 
-        try(PreparedStatement declaracaoPreparada = Conexao.conectando().prepareStatement(sql)){
+        try(
+            Connection conexao = Conexao.conectando();
+            PreparedStatement declaracaoPreparada = conexao.prepareStatement(sql)
+        ){
 
             declaracaoPreparada.setInt(1, quantidade);
             declaracaoPreparada.setLong(2, id);
@@ -195,8 +217,6 @@ public class ProdutoRepository {
             if(quantidadeDeLinhasAfetadas == 0) {
                 throw new ErroAtualizacaoException("Não foi retornado nenhuma informação da adição do produto!");
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 }
