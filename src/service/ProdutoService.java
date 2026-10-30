@@ -2,8 +2,7 @@ package service;
 
 import dto.InserirAtualizarProdutoDTO;
 import exception.*;
-import interfaces.ProdutoRepositoryInterface;
-import interfaces.ProdutoServiceInterface;
+import repository.ProdutoRepositoryInterface;
 import model.Produto;
 
 import java.sql.SQLException;
@@ -52,7 +51,7 @@ public class ProdutoService implements ProdutoServiceInterface {
 
     @Override
     public List<Produto> listarProdutos() throws SQLException{
-        List<Produto> produtosEstoque = produtoRepository.listarProduto();
+        List<Produto> produtosEstoque = produtoRepository.listarProdutos();
 
         if(produtosEstoque.isEmpty()){
             throw new NenhumResultadoEncontradoException("Não existe nenhum produto cadastrado!");

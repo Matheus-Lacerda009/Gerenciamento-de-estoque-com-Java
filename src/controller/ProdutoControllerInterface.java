@@ -1,4 +1,4 @@
-package interfaces;
+package controller;
 
 import dto.InserirAtualizarProdutoDTO;
 import model.Produto;
@@ -6,7 +6,7 @@ import model.Produto;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ProdutoServiceInterface {
+public interface ProdutoControllerInterface {
     Produto inserirProduto(InserirAtualizarProdutoDTO produtoDTO) throws SQLException;
 
     Produto buscarProdutoPorId(Long id) throws SQLException;

@@ -1,4 +1,4 @@
-package interfaces;
+package repository;
 
 import model.Produto;
 
@@ -12,7 +12,7 @@ public interface ProdutoRepositoryInterface {
 
     Produto buscarProdutoPorNome(String nome) throws SQLException;
 
-    List<Produto> listarProduto() throws SQLException;
+    List<Produto> listarProdutos() throws SQLException;
 
     Produto atualizarProduto(Produto produto, Long id) throws SQLException;
 

@@ -5,7 +5,6 @@ import exception.ErroAtualizacaoException;
 import exception.ErroExclusaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
-import interfaces.ProdutoRepositoryInterface;
 import model.Produto;
 
 import java.sql.*;
@@ -106,7 +105,7 @@ public class ProdutoRepository implements ProdutoRepositoryInterface {
     }
 
     @Override
-    public List<Produto> listarProduto() throws SQLException{
+    public List<Produto> listarProdutos() throws SQLException{
         final String sql = "select * from Estoque where ativo = true;";
 
         try(

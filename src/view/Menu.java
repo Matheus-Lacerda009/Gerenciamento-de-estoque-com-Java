@@ -1,11 +1,11 @@
 package view;
 
+import controller.ProdutoControllerInterface;
 import dto.InserirAtualizarProdutoDTO;
 import exception.ErroAtualizacaoException;
 import exception.ErroInsercaoException;
 import exception.NenhumResultadoEncontradoException;
 import exception.ProdutoNaoEncontradoException;
-import interfaces.ProdutoServiceInterface;
 import model.Produto;
 
 import java.sql.SQLException;
@@ -15,10 +15,10 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private final ProdutoServiceInterface produtoService;
+    private final ProdutoControllerInterface produtoController;
 
-    public Menu(ProdutoServiceInterface produtoService) {
-        this.produtoService = produtoService;
+    public Menu(ProdutoControllerInterface produtoController) {
+        this.produtoController = produtoController;
     }
 
     public void iniciar(){
@@ -40,7 +40,8 @@ public class Menu {
                                 "\n5 - Atualizar produto" +
                                 "\n6 - Deletar produto" +
                                 "\n7 - Vender produto" +
-                                "\n8 - Reabastecer estoque"
+                                "\n8 - Reabastecer estoque" +
+                                "\n0 - Sair"
                 );
                 opcao = scanner.nextInt();
 
@@ -121,7 +122,7 @@ public class Menu {
                             quantidadeInsercao
                     );
 
-            Produto resultadoInsercao = produtoService.inserirProduto(produtoDTOInsercao);
+            Produto resultadoInsercao = produtoController.inserirProduto(produtoDTOInsercao);
 
             System.out.println("Produto inserido com sucesso:\n" + resultadoInsercao);
         } catch(InputMismatchException e){
@@ -143,7 +144,7 @@ public class Menu {
             //Limpando buffer
             scanner.nextLine();
 
-            Produto resultadoBuscaId = produtoService.buscarProdutoPorId(idBusca);
+            Produto resultadoBuscaId = produtoController.buscarProdutoPorId(idBusca);
 
             System.out.println("Resultado da busca:\n" + resultadoBuscaId);
         } catch(InputMismatchException e){
@@ -162,7 +163,7 @@ public class Menu {
             System.out.println("Insira o nome do produto:");
             String nomeBusca = scanner.nextLine();
 
-            Produto resultadoBuscaNome = produtoService.buscarProdutoPorNome(nomeBusca);
+            Produto resultadoBuscaNome = produtoController.buscarProdutoPorNome(nomeBusca);
 
             System.out.println("Resultado da busca:\n" + resultadoBuscaNome);
         } catch(InputMismatchException e){
@@ -178,7 +179,7 @@ public class Menu {
         try {
             System.out.println("Listando produtos:");
 
-            List<Produto> produtosEstoque = produtoService.listarProdutos();
+            List<Produto> produtosEstoque = produtoController.listarProdutos();
 
             System.out.println("---------------------------------------");
 
@@ -222,7 +223,7 @@ public class Menu {
                             quantidadeAtualizacao
                     );
 
-            Produto resultadoAtualizacao = produtoService.atualizarProduto(produtoDTOAtualizacao, idAtualizacao);
+            Produto resultadoAtualizacao = produtoController.atualizarProduto(produtoDTOAtualizacao, idAtualizacao);
 
             System.out.println("Produto atualizado com sucesso:\n" + resultadoAtualizacao);
         } catch(InputMismatchException e){
@@ -244,7 +245,7 @@ public class Menu {
             //Limpando buffer
             scanner.nextLine();
 
-            produtoService.deletarProduto(idExclusao);
+            produtoController.deletarProduto(idExclusao);
 
             System.out.println("Sucesso!");
         } catch(InputMismatchException e){
@@ -269,7 +270,7 @@ public class Menu {
             //Limpando buffer
             scanner.nextLine();
 
-            produtoService.venderProduto(idVenda, quantidadeVenda);
+            produtoController.venderProduto(idVenda, quantidadeVenda);
 
             System.out.println("Sucesso!");
         } catch(InputMismatchException e){
@@ -294,7 +295,7 @@ public class Menu {
             //Limpando buffer
             scanner.nextLine();
 
-            produtoService.adicionarProdutoEstoque(idReabastecer, quantidadeReabastecer);
+            produtoController.adicionarProdutoEstoque(idReabastecer, quantidadeReabastecer);
 
             System.out.println("Sucesso!");
         } catch(InputMismatchException e){

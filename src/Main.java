@@ -1,3 +1,4 @@
+import controller.ProdutoController;
 import repository.ProdutoRepository;
 import service.ProdutoService;
 import view.Menu;
@@ -9,7 +10,9 @@ public class Main {
 
         ProdutoService produtoService = new ProdutoService(produtoRepository);
 
-        Menu menu = new Menu(produtoService);
+        ProdutoController produtoController = new ProdutoController(produtoService);
+
+        Menu menu = new Menu(produtoController);
         menu.iniciar();
     }
 }
