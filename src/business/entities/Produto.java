@@ -1,4 +1,4 @@
-package model;
+package business.entities;
 
 public class Produto {
     private Long id;

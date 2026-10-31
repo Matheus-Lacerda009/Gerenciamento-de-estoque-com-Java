@@ -1,6 +1,6 @@
-package dto;
+package business.dto;
 
-import model.Produto;
+import business.entities.Produto;
 
 public class InserirAtualizarProdutoDTO {
     private String nome;

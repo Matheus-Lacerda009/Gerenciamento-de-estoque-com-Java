@@ -1,12 +1,12 @@
-package view;
+package presentation;
 
-import dto.InserirAtualizarProdutoDTO;
+import business.dto.InserirAtualizarProdutoDTO;
 import exception.ErroAtualizacaoException;
 import exception.ErroInsercaoException;
 import exception.NenhumResultadoEncontradoException;
 import exception.ProdutoNaoEncontradoException;
-import interfaces.ProdutoServiceInterface;
-import model.Produto;
+import business.ProdutoServiceInterface;
+import business.entities.Produto;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;

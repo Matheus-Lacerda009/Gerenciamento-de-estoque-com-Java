@@ -1,6 +1,6 @@
-import repository.ProdutoRepository;
-import service.ProdutoService;
-import view.Menu;
+import persistence.ProdutoRepository;
+import business.ProdutoService;
+import presentation.Menu;
 
 public class Main {
     public static void main(String[] args) {

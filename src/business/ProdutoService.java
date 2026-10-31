@@ -1,10 +1,9 @@
-package service;
+package business;
 
-import dto.InserirAtualizarProdutoDTO;
+import business.dto.InserirAtualizarProdutoDTO;
 import exception.*;
-import interfaces.ProdutoRepositoryInterface;
-import interfaces.ProdutoServiceInterface;
-import model.Produto;
+import persistence.ProdutoRepositoryInterface;
+import business.entities.Produto;
 
 import java.sql.SQLException;
 import java.util.List;

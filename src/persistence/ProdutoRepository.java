@@ -1,12 +1,11 @@
-package repository;
+package persistence;
 
-import connection.Conexao;
+import database.connection.Conexao;
 import exception.ErroAtualizacaoException;
 import exception.ErroExclusaoException;
 import exception.ErroInsercaoException;
 import exception.ProdutoNaoEncontradoException;
-import interfaces.ProdutoRepositoryInterface;
-import model.Produto;
+import business.entities.Produto;
 
 import java.sql.*;
 import java.util.ArrayList;
